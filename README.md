@@ -1,3 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+</head>
+<body>
+    <h1>Completed Login and Signup Pages</h1>
+    <p>
+        This repository contains a React-based project implementing a Login and Signup page with the following features:
+    </p>
+    <ul>
+        <li>Frontend created using React.js and Material-UI (MUI) for a modern and responsive design.</li>
+        <li>Backend integration for user authentication and database interaction.</li>
+        <li>Email verification functionality to ensure secure account creation.</li>
+        <li>Optimized for future scalability and integration with additional features.</li>
+    </ul>
+    <h2>Technologies Used</h2>
+    <ul>
+        <li>React.js</li>
+        <li>Material-UI (MUI)</li>
+        <li>Node.js</li>
+        <li>Express.js</li>
+        <li>MongoDB</li>
+    </ul>
+    <h2>How to Use</h2>
+    <p>
+        Clone the repository and follow the setup instructions in the <code>README.md</code> file.
+    </p>
+    <h2>Contributors</h2>
+    <p>Developed by Akash Chathumal.</p>
+</body>
+</html>
+
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
