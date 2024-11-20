@@ -49,7 +49,7 @@ function Login() {
             fontWeight: "bold", // Header bold
           }}
         >
-         LOGIN
+         LOG IN
         </Typography>
 
         {/* Form */}
