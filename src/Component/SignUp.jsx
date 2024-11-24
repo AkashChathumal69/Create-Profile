@@ -1,4 +1,6 @@
-import React from "react";
+import React, { useState } from 'react';
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 import { Link } from "react-router-dom";
 import {
   Box,
@@ -13,7 +15,41 @@ import {
 } from "@mui/material";
 import { FaGoogle, FaFacebook } from "react-icons/fa";
 
-function SignUp() {
+const SignUp = () => {
+  const navigate = useNavigate();
+  const [formData, setFormData] = useState({
+    email: '',
+    password: '',
+    confirmPassword: ''
+  });
+  const [error, setError] = useState('');
+
+  const handleChange = (e) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value
+    });
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    
+    if (formData.password !== formData.confirmPassword) {
+      setError('Passwords do not match');
+      return;
+    }
+
+    try {
+      await axios.post('http://localhost:5000/api/signup', {
+        email: formData.email,
+        password: formData.password
+      });
+      navigate('/login'); // Navigate to login page after successful signup
+    } catch (error) {
+      setError(error.response?.data?.message || 'An error occurred');
+    }
+  };
+
   return (
     <Container component="main" maxWidth="xs">
       <CssBaseline />
@@ -52,6 +88,9 @@ function SignUp() {
           Sign up
         </Typography>
 
+        {error && <div className="text-red-500 mb-4">{error}</div>}
+        <form onSubmit={handleSubmit}>
+
         {/* Form */}
         <Box component="form" sx={{ mt: 3 }}>
           <TextField
@@ -72,6 +111,8 @@ function SignUp() {
             label="Email"
             name="email"
             autoComplete="email"
+            value={formData.email}
+            onChange={handleChange}
           />
           <TextField
             margin="normal"
@@ -82,6 +123,8 @@ function SignUp() {
             type="password"
             id="password"
             autoComplete="new-password"
+            value={formData.password}
+            onChange={handleChange}
           />
           <TextField
             margin="normal"
@@ -92,6 +135,8 @@ function SignUp() {
             type="password"
             id="confirmPassword"
             autoComplete="new-password"
+            value={formData.confirmPassword}
+            onChange={handleChange}
           />
           <FormControlLabel
             control={<Checkbox value="terms" color="primary" />}
@@ -151,6 +196,7 @@ function SignUp() {
             Sign up with Facebook
           </Button>
         </Box>
+        </form>
       </Box>
     </Container>
   );

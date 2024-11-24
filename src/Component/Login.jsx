@@ -1,4 +1,6 @@
-import React from "react";
+import React, { useState } from 'react';
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 import { Link } from "react-router-dom";
 import {
   Box,
@@ -13,7 +15,34 @@ import {
 } from "@mui/material";
 import { FaGoogle, FaFacebook } from "react-icons/fa";
 
-function Login() {
+const Login = () => {
+  const navigate = useNavigate();
+  const [formData, setFormData] = useState({
+    email: '',
+    password: ''
+  });
+  const [error, setError] = useState('');
+
+  const handleChange = (e) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value
+    });
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const response = await axios.post('http://localhost:5000/api/login', formData);
+      localStorage.setItem('token', response.data.token);
+      localStorage.setItem('userId', response.data.userId);
+      navigate('/dashboard'); // Navigate to dashboard after successful login
+    } catch (error) {
+      setError(error.response?.data?.message || 'An error occurred');
+    }
+  };
+
+
   return (
     <Container component="main" maxWidth="xs">
       <CssBaseline />
@@ -52,6 +81,9 @@ function Login() {
          LOG IN
         </Typography>
 
+        {error && <div className="text-red-500 mb-4">{error}</div>}
+        <form onSubmit={handleSubmit}>
+
         {/* Form */}
         <Box component="form" sx={{ mt: 3 }}>
           <TextField
@@ -63,6 +95,8 @@ function Login() {
             name="email"
             autoComplete="email"
             autoFocus
+            value={formData.email}
+            onChange={handleChange}
           />
           <TextField
             margin="normal"
@@ -73,6 +107,8 @@ function Login() {
             type="password"
             id="password"
             autoComplete="current-password"
+            value={formData.password}
+            onChange={handleChange}
           />
           <FormControlLabel
             control={<Checkbox value="remember" color="primary" />}
@@ -141,6 +177,7 @@ function Login() {
             </Link>
           </Typography>
         </Box>
+        </form>
       </Box>
     </Container>
   );
